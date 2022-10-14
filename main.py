@@ -45,21 +45,30 @@ print('please choose your heuristic:')
 print('    0: uniform cost search')
 print('    1: misplaced tile heuristic')
 print('    2: manhattan distance heuristic')
-choice = input()
+choice = int(input())
+if choice != 0 and choice != 1 and choice != 2:
+    print(type(choice))
+    print('unknown choice, exiting program')
+    exit
+
 print('plese input a puzzle')
 print('   please use the format of:')
 print('   1,2,3')
-print('   3,5,6')
+print('   4,5,6')
 print('   7,8,0')
 puzzle = input()
+size = len(puzzle)/2 + 1
 puzzle += input()
 puzzle += input()
+temp =[]
+for i in puzzle:
+    if i.isnumeric():
+        temp.append(int(i))
+print(temp)
 if(choice == 0):
-    puzzle = solve(puzzle)
+    puzzle = solve(puzzle, 0)
 elif(choice == 1):
-    print(choice)
+    puzzle = solve(puzzle, 1)
 elif(choice == 2):
-    print(choice)
-else:
-    print('unknown choice, exiting program')
+    puzzle = solve(puzzle, 2, size)
 
