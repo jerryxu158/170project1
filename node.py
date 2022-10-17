@@ -1,7 +1,7 @@
 import copy
 import generalFunctions
 class nodes:
-    def init(self, puzzle, solved, cost, choice):
+    def __init__(self, puzzle, solved, cost, choice):
         self.puzzle = puzzle
         self.cost = cost
         self.solved = solved

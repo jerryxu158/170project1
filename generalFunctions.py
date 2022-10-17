@@ -1,3 +1,4 @@
+import node
 def find(puzzle, toFind):
         toRet = []
         for i in range(len(puzzle)):
@@ -25,4 +26,12 @@ def manhattanSearch(puzzle, solved):
                 locs = find(solved, solved[i][j])
                 totalDist += abs(i - locs[1]) + abs(j - locs[0])
     return totalDist
-    
+
+def findSmallest(l:list[node.nodes]):
+    smallest = l[0].cost
+    smallestIndex = 0
+    for i in range(len(l)):
+        if l[i].cost < smallest:
+            smallest = l[i].cost
+            smallestIndex = i
+    return smallestIndex
