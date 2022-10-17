@@ -30,3 +30,22 @@ def manhattanSearch(puzzle, solved):
                 totalDist += abs(i - locs[1]) + abs(j - locs[0])
     return totalDist
 
+def move(puzzle, move):
+    loc = find(puzzle, 0)
+    zeroCol = loc[0]
+    zeroRow = loc[1]
+    if(move == 'start'):
+        return puzzle
+    elif(move == 'up'):
+        puzzle[zeroRow][zeroCol] = puzzle[zeroRow - 1][zeroCol]
+        puzzle[zeroRow - 1][zeroCol] = 0
+    elif (move == 'down'):
+        puzzle[zeroRow][zeroCol] = puzzle[zeroRow + 1][zeroCol]
+        puzzle[zeroRow + 1][zeroCol] = 0
+    elif (move == 'left'):
+        puzzle[zeroRow][zeroCol] = puzzle[zeroRow][zeroCol - 1]
+        puzzle[zeroRow][zeroCol - 1] = 0
+    else:
+        puzzle[zeroRow][zeroCol] = puzzle[zeroRow][zeroCol+1]
+        puzzle[zeroRow][zeroCol+1] = 0
+    return puzzle

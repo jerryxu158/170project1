@@ -1,9 +1,9 @@
 import node
 import generalFunctions
 #for pretty much every sytnactic thing such as 2d array or enum or splitting i double checked on geek2geek or w3 schools
-
+#total 9! nodes?
 #use 0 to rep blank
-test1 = [[8,7,6],[5,4,3],[2,1,0]]
+test1 = [[1,3,6],[5,0,2],[4,7,8]]
 
 def findSmallest(l:list[node.nodes]):
     toRet = []
@@ -23,7 +23,7 @@ def findSmallest(l:list[node.nodes]):
 
 def Astar(heuristic, puzzle, solved):
     theQ = []
-    theQ.append(node.nodes(puzzle, solved, 10, heuristic, []))
+    theQ.append(node.nodes(puzzle, solved, 1, heuristic, ['start']))
     currNode = theQ[0]
     smallestCost = theQ[0].cost
     childIsSmaller = False
@@ -37,19 +37,23 @@ def Astar(heuristic, puzzle, solved):
         else:#if one of the children is smaller, we don't need to find again
             childIsSmaller = False #reset this flag
             #the location is set when we add nodes to the Q
-            
+        if(iterations % 10 == 0):
+            print('nodes expanded: ' + str(iterations)) 
+        iterations +=1
         currNode = theQ.pop(loc)
-        print('iteration: ' + str(iterations) + ' move chosen: ')
-        iterations+=1
-        for i in currNode.puzzle:
-            print(i)
-        input()
+        #input()
         if(currNode.puzzle == solved):
-            print('puzzle solved')
-            exit
+            iterations = 0
+            for i in currNode.movesMade:
+                print('move ' + str(iterations) + ': ')
+                puzzle = generalFunctions.move(puzzle, i)
+                for j in puzzle:
+                    print(j)
+                iterations += 1
+            return
         else:
+            #print('making new nodes')
             newNodes = currNode.findChildren()
-            num = 1
             for i in newNodes:
                 theQ.append(i)
                 if(i.cost < smallestCost):
@@ -110,7 +114,7 @@ if(choice != "yes"):
 else:
     puzzle = test1
     size = 3
-    choice = 1
+    choice = 2
 solved = solve(puzzle, size)
     
 if puzzle == solved:
