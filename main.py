@@ -3,14 +3,60 @@ import generalFunctions
 #for pretty much every sytnactic thing such as 2d array or enum or splitting i double checked on geek2geek or w3 schools
 
 #use 0 to rep blank
-
 test1 = [[8,7,6],[5,4,3],[2,1,0]]
+
+def findSmallest(l:list[node.nodes]):
+    toRet = []
+    smallest = l[0].cost
+    smallestIndex = 0
+    secondSmall = -1
+    secondIndex = 0
+    for i in range(len(l)):
+        if l[i].cost < smallest:
+            secondSmall = smallest
+            secondIndex = smallestIndex
+            smallest = l[i].cost
+            smallestIndex = i
+    toRet.append(smallestIndex)
+    toRet.append(secondSmall)
+    return toRet
 
 def Astar(heuristic, puzzle, solved):
     theQ = []
-    theQ.append(node.nodes(puzzle, solved, 10, heuristic))
+    theQ.append(node.nodes(puzzle, solved, 10, heuristic, []))
+    currNode = theQ[0]
+    smallestCost = theQ[0].cost
+    childIsSmaller = False
+    loc = -1
+    iterations = 0
     while len(theQ) > 0:
-        i = generalFunctions.findSmallest(theQ)
+        if(childIsSmaller == False): #if one of the children is not smaller, find best move
+            i = findSmallest(theQ)
+            loc = i[0]
+            smallestCost =i[1]
+        else:#if one of the children is smaller, we don't need to find again
+            childIsSmaller = False #reset this flag
+            #the location is set when we add nodes to the Q
+            
+        currNode = theQ.pop(loc)
+        print('iteration: ' + str(iterations) + ' move chosen: ')
+        iterations+=1
+        for i in currNode.puzzle:
+            print(i)
+        input()
+        if(currNode.puzzle == solved):
+            print('puzzle solved')
+            exit
+        else:
+            newNodes = currNode.findChildren()
+            num = 1
+            for i in newNodes:
+                theQ.append(i)
+                if(i.cost < smallestCost):
+                    loc = len(theQ) - 1
+                    smallestCost = i.cost
+                    childIsSmaller = True
+                    
     
 def solve(puzzle, size):
     toRet = []
@@ -64,7 +110,7 @@ if(choice != "yes"):
 else:
     puzzle = test1
     size = 3
-    choice = 0
+    choice = 1
 solved = solve(puzzle, size)
     
 if puzzle == solved:
