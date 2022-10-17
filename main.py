@@ -1,4 +1,4 @@
-
+import node
 #for pretty much every sytnactic thing such as 2d array or enum or splitting i double checked on geek2geek or w3 schools
 
 #use 0 to rep blank
@@ -8,9 +8,10 @@ solvedState1 = [[1,2,3],[4,5,6],[7,8,0]]
 
 def Astar(cost, heuristic, puzzle, solved):
     if puzzle == solved:
-        print('already solved puzzle inputted')
+        print('puzzle solved, input same as solved puzzle')
+        
         return 0
-
+    
 def solve(puzzle, size):
     toRet = []
     temp = []
@@ -42,10 +43,13 @@ puzzle += input()
 puzzle += input()
 temp =[]
 for i in puzzle:
-    if i.isnumeric():
-        temp.append(int(i))
-print(temp)
-
+    if i.isnumeric() == False and i !=',':
+        print('invalid input')
+        exit
+    elif i != ',':
+        temp.append(i)
+puzzle = temp
+        
 solved = solve(puzzle, size)
 if(choice == 0):
     Astar(1, 0, puzzle, solved)
