@@ -7,19 +7,19 @@ test1 = [[8,7,6],[5,4,3],[2,1,0]]
 solvedState1 = [[1,2,3],[4,5,6],[7,8,0]]
 
 def Astar(cost, heuristic, puzzle, solved):
-    if puzzle == solved:
-        print('puzzle solved, input same as solved puzzle')
-        
-        return 0
+    print(cost)
     
 def solve(puzzle, size):
     toRet = []
     temp = []
-    for i in range(len(puzzle)):
-        temp.append(i+1)
-        if len(temp) == size:
-            toRet.append(temp)
-            temp = []
+    num = 1
+    for j in puzzle:
+        for i in range(len(j)):
+            temp.append(num)
+            num+=1
+        toRet.append(temp)
+        temp = []
+    toRet[len(toRet) - 1][len(toRet) - 1] = 0
     return toRet
 
 print('please choose your heuristic:')
@@ -32,25 +32,33 @@ if choice != 0 and choice != 1 and choice != 2:
     print('unknown choice, exiting program')
     exit
 
+print('please input the size of your puzzle')
+size = int(input())
 print('plese input a puzzle')
-print('   please use the format of:')
-print('   1,2,3')
-print('   4,5,6')
-print('   7,8,0')
-puzzle = input()
-size = len(puzzle)/2 + 1
-puzzle += input()
-puzzle += input()
-temp =[]
+puzzle =[]
+for i in range(size):
+    puzzle += input()
+
+temp = []
 for i in puzzle:
     if i.isnumeric() == False and i !=',':
         print('invalid input')
         exit
     elif i != ',':
-        temp.append(i)
-puzzle = temp
-        
+        temp.append(int(i))
+puzzle = []
+temp1 = []
+for i in temp:
+    temp1.append(i)
+    if(len(temp1) == size):
+        puzzle.append(temp1)
+        temp1 = []
 solved = solve(puzzle, size)
+    
+if puzzle == solved:
+        print('puzzle solved, input same as solved puzzle')
+        exit
+        
 if(choice == 0):
     Astar(1, 0, puzzle, solved)
 elif(choice == 1):
