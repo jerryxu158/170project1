@@ -1,14 +1,14 @@
 import copy
 import generalFunctions
 class nodes:
-    def __init__(self, puzzle, solved, cost, choice, movesMade):
+    def __init__(self, puzzle, depth, hCost, choice, movesMade): # hCost is wrong, i should have depth and heurstic seperate
         self.puzzle = puzzle
-        self.cost = cost
-        self.solved = solved
+        self.depth = depth
+        self.hCost = hCost
         self.choice = choice
         self.movesMade = copy.deepcopy(movesMade)
 
-    def findChildren(self):
+    def findChildren(self, solved):
         toRet=[]
         puzzle = copy.deepcopy(self.puzzle)
         
@@ -24,12 +24,11 @@ class nodes:
             moves = copy.deepcopy(self.movesMade)
             moves.append('left')
             #print('moves made ' + str(moves))
-            if self.choice == 0:
-                toRet.append(nodes(puzzle, self.solved, self.cost + 1, 0, moves))
-            elif(self.choice == 1):
-                toRet.append(nodes(puzzle, self.solved, self.cost + 1, generalFunctions.misplacedTile(puzzle), moves))
-            else:
-                toRet.append(nodes(puzzle, self.solved, self.cost + 1, generalFunctions.manhattanSearch(puzzle, self.solved), moves))
+            toRet.append(nodes(puzzle, 
+                        self.depth + 1, 
+                        generalFunctions.getCost(self.choice, self.puzzle, solved), 
+                        self.choice, 
+                        moves))
             puzzle = copy.deepcopy(self.puzzle)
 
         if zero != len(puzzle[0]) - 1:#checks if the empty tile is on the very right, if so we cannot move any further to the right
@@ -39,13 +38,11 @@ class nodes:
             temp = puzzle[zeroRow][zero+1]
             puzzle[zeroRow][zero+1] = puzzle[zeroRow][zero]
             puzzle[zeroRow][zero] = temp
-            if self.choice == 0:
-                toRet.append(nodes(puzzle, self.solved, self.cost + 1, 0, moves))
-            elif(self.choice == 1):
-                toRet.append(nodes(puzzle, self.solved, self.cost + 1, generalFunctions.misplacedTile(puzzle), moves))
-            else:
-                toRet.append(nodes(puzzle, self.solved, self.cost + 1, generalFunctions.manhattanSearch(puzzle, self.solved), moves))
-            puzzle = copy.deepcopy(self.puzzle)
+            toRet.append(nodes(puzzle, 
+                        self.depth + 1, 
+                        generalFunctions.getCost(self.choice, self.puzzle, solved), 
+                        self.choice, 
+                        moves))
 
         if zeroRow != 0:#if its not the top, move up 1
             moves = copy.deepcopy(self.movesMade)
@@ -54,12 +51,11 @@ class nodes:
             temp = puzzle[zeroRow-1][zero]
             puzzle[zeroRow-1][zero] = puzzle[zeroRow][zero]
             puzzle[zeroRow][zero] = temp
-            if self.choice == 0:
-                toRet.append(nodes(puzzle, self.solved, self.cost + 1, 0, moves))
-            elif(self.choice == 1):
-                toRet.append(nodes(puzzle, self.solved, self.cost + 1, generalFunctions.misplacedTile(puzzle), moves))
-            else:
-                toRet.append(nodes(puzzle, self.solved, self.cost + 1, generalFunctions.manhattanSearch(puzzle, self.solved), moves))
+            toRet.append(nodes(puzzle, 
+                        self.depth + 1, 
+                        generalFunctions.getCost(self.choice, self.puzzle, solved), 
+                        self.choice, 
+                        moves))
             puzzle = copy.deepcopy(self.puzzle)
 
         if zeroRow != len(puzzle) - 1:#if its not the bottom row, we move 0 down one
@@ -69,10 +65,9 @@ class nodes:
             temp = puzzle[zeroRow+1][zero]
             puzzle[zeroRow+1][zero] = puzzle[zeroRow][zero]
             puzzle[zeroRow][zero] = temp
-            if self.choice == 0:
-                toRet.append(nodes(puzzle, self.solved, self.cost + 1, 0, moves))
-            elif(self.choice == 1):
-                toRet.append(nodes(puzzle, self.solved, self.cost + 1, generalFunctions.misplacedTile(puzzle), moves))
-            else:
-                toRet.append(nodes(puzzle, self.solved, self.cost + 1, generalFunctions.manhattanSearch(puzzle, self.solved), moves))
+            toRet.append(nodes(puzzle, 
+                        self.depth + 1, 
+                        generalFunctions.getCost(self.choice, self.puzzle, solved), 
+                        self.choice, 
+                        moves))
         return toRet

@@ -10,22 +10,19 @@ def find(puzzle, toFind):
                 
                 break
         return toRet
-def misplacedTile(puzzle):
+def misplacedTile(puzzle, solved):
         misplaced = 0
-        temp = []
-        for i in puzzle:
-            temp.append(i)
-        puzzle = temp
         for i in range(len(puzzle)):
-            if puzzle[i] != i+1 and puzzle[i] != 0:
-                misplaced+=1
+            for j in range(i):
+                if(puzzle[i][j] != solved [i][j]):
+                    misplaced += 1
         return misplaced
         
 def manhattanSearch(puzzle, solved):
     totalDist = 0
     for i in range(len(puzzle)):
         for j in range(len(puzzle[i])): #zero being out of place and finding how out of place shouldn't matter, but this is doing it anyways
-            if puzzle[i][j] != solved[i][j]:
+            if (puzzle[i][j] != solved[i][j]):
                 locs = find(solved, solved[i][j])
                 totalDist += abs(i - locs[1]) + abs(j - locs[0])
     return totalDist
@@ -49,3 +46,52 @@ def move(puzzle, move):
         puzzle[zeroRow][zeroCol] = puzzle[zeroRow][zeroCol+1]
         puzzle[zeroRow][zeroCol+1] = 0
     return puzzle
+
+def getHeuristic():
+    print('please choose your heuristic:')
+    print('    0: uniform cost search')
+    print('    1: misplaced tile heuristic')
+    print('    2: manhattan distance heuristic')
+
+    choice = int(input())
+    if choice != 0 and choice != 1 and choice != 2:
+        print('unknown choice, exiting program')
+        exit
+def getSize():
+    print('please input the size of your puzzle')
+    size = input()
+    if type(size) != int:
+        print('non integer input, exiting')
+        exit
+    size = int(size)
+    return size
+
+def getPuzzle(size):
+    print('plese input a puzzle')
+    puzzle =[]
+    for i in range(size):
+        puzzle += input()
+
+    temp = []
+    for i in puzzle:
+        if i.isnumeric() == False and i !=',':
+            print('invalid input')
+            exit
+        elif i != ',':
+            temp.append(int(i))
+    puzzle = []
+    temp1 = []
+    for i in temp:
+        temp1.append(i)
+        if(len(temp1) == size):
+            puzzle.append(temp1)
+            temp1 = []
+def getCost(heuristic, puzzle, solved):
+    cost = 0
+    if(heuristic == 0):
+        cost = 0
+    elif heuristic == 1:
+        cost = misplacedTile(puzzle, solved)
+    else:
+        cost = manhattanSearch(puzzle, solved)
+    return cost
