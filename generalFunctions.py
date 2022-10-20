@@ -13,9 +13,10 @@ def find(puzzle, toFind):
 def misplacedTile(puzzle, solved):
         misplaced = 0
         for i in range(len(puzzle)):
-            for j in range(i):
-                if(puzzle[i][j] != solved [i][j]):
+            for j in range(len(puzzle[i])):
+                if(puzzle[i][j] != solved[i][j]):
                     misplaced += 1
+        #print('misplaced: ' + str(misplaced))
         return misplaced
         
 def manhattanSearch(puzzle, solved):
@@ -23,8 +24,9 @@ def manhattanSearch(puzzle, solved):
     for i in range(len(puzzle)):
         for j in range(len(puzzle[i])): #zero being out of place and finding how out of place shouldn't matter, but this is doing it anyways
             if (puzzle[i][j] != solved[i][j]):
-                locs = find(solved, solved[i][j])
+                locs = find(puzzle, solved[i][j])
                 totalDist += abs(i - locs[1]) + abs(j - locs[0])
+    #print('totalDist: ' + str(totalDist))
     return totalDist
 
 def move(puzzle, move):
