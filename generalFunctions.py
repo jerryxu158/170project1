@@ -1,23 +1,23 @@
 def find(puzzle, toFind):
-        toRet = []
-        #print('looking for: '+ str(toFind))
-        for i in range(len(puzzle)):
-            #print(puzzle[i])
-            #print(toFind in puzzle[i] )
-            if(toFind in puzzle[i]):# if the num to find is in this level of the matrix, find its location, break and return the positions
-                toRet.append(puzzle[i].index(toFind))
-                toRet.append(i)
-                
-                break
-        return toRet
+    toRet = []
+    #print('looking for: '+ str(toFind))
+    for i in range(len(puzzle)):
+        #print(puzzle[i])
+        #print(toFind in puzzle[i] )
+        if(toFind in puzzle[i]):# if the num to find is in this level of the matrix, find its location, break and return the positions
+            toRet.append(puzzle[i].index(toFind))
+            toRet.append(i)
+            
+            break
+    return toRet
 def misplacedTile(puzzle, solved):
-        misplaced = 0
-        for i in range(len(puzzle)):
-            for j in range(len(puzzle[i])):
-                if(puzzle[i][j] != solved[i][j]):
-                    misplaced += 1
-        #print('misplaced: ' + str(misplaced))
-        return misplaced
+    misplaced = 0
+    for i in range(len(puzzle)):
+        for j in range(len(puzzle[i])):
+            if(puzzle[i][j] != solved[i][j]):
+                misplaced += 1
+    #print('misplaced: ' + str(misplaced))
+    return misplaced
         
 def manhattanSearch(puzzle, solved):
     totalDist = 0
@@ -59,6 +59,8 @@ def getHeuristic():
     if choice != 0 and choice != 1 and choice != 2:
         print('unknown choice, exiting program')
         exit
+    return choice
+
 def getSize():
     print('please input the size of your puzzle')
     size = input()
@@ -88,6 +90,8 @@ def getPuzzle(size):
         if(len(temp1) == size):
             puzzle.append(temp1)
             temp1 = []
+    return puzzle
+
 def getCost(heuristic, puzzle, solved):
     cost = 0
     if(heuristic == 0):
@@ -97,3 +101,29 @@ def getCost(heuristic, puzzle, solved):
     else:
         cost = manhattanSearch(puzzle, solved)
     return cost
+
+def printTime(end):
+    timeArr = [0,0,0]
+    print('run time was: ' + str(end) + ' seconds')
+    if (end > 100):
+        timeArr[2] = end%60
+        end -= end%60
+        end = end / 60
+        timeArr[1] = end
+        if(end > 60):
+            end = end / 60
+            timeArr[0] = end
+        print('the total run time was ' + str(timeArr[0]) + ' hours, ' + str(timeArr[1]) + ' minutes, ' + str(timeArr[2]) + ' seconds')
+
+def solve(puzzle, size):
+    toRet = []
+    temp = []
+    num = 1
+    for j in puzzle:
+        for i in range(size):
+            temp.append(num)
+            num+=1
+        toRet.append(temp)
+        temp = []
+    toRet[len(toRet) - 1][len(toRet) - 1] = 0
+    return toRet
