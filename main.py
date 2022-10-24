@@ -87,13 +87,16 @@ def Astar(heuristic, puzzle, solved):
 
 
 print('use test cases?')
-choice = input()
+testCase = input()
+
 puzzle =[]
 size = 0
-if(choice == "yes"):
+
+choice = generalFunctions.getHeuristic()
+
+if(testCase == "yes"):
     puzzle = test1
     size = 3
-    choice = generalFunctions.getHeuristic()
 else:
     size = generalFunctions.getSize()
     
