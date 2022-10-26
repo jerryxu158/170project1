@@ -101,9 +101,6 @@ else:
     size = generalFunctions.getSize()
     
     puzzle = generalFunctions.getPuzzle(size)
-for i in puzzle:
-    print('inputted puzzle:')
-    print(i)
 
 solved = generalFunctions.solve(puzzle, size)
 
@@ -117,4 +114,3 @@ elif(choice == 1):
     Astar(1, puzzle, solved)
 elif(choice == 2):
     Astar(2, puzzle, solved)
-
