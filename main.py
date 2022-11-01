@@ -5,7 +5,7 @@ import time
 #total 9! nodes?
 #use 0 to rep blank
 
-test1 = [[1,2,3],[4,5,6],[7,0,8]] #depth 1
+#test1 = [[1,2,3],[4,5,6],[7,0,8]] #depth 1
 #test1 = [[1,2,3],[5,0,6],[4,7,8]] #depth 4
 #test1 = [[1,3,6],[5,0,2],[4,7,8]] #depth 8
 #test1 = [[1,3,6],[5,0,7],[4,8,2]] #depth 12
@@ -53,8 +53,8 @@ def Astar(heuristic, puzzle, solved):
         else:#if one of the children is smaller, we don't need to find again
             childIsSmaller = False #reset this flag
 
-        if(visitedNodes % 10000 == 0):
-           print('nodes visited so far: ' + str(visitedNodes))    
+        #if(visitedNodes % 10000 == 0):
+        #   print('nodes visited so far: ' + str(visitedNodes))    
 
         visitedNodes +=1
 
@@ -66,12 +66,13 @@ def Astar(heuristic, puzzle, solved):
             print('largest queue size was: ' + str(largestQ))
 
             for i in currNode.movesMade: #for each move made, create that puzzle and print out the move made
-                print('move ' + str(moveNum) + ': ')
                 puzzle = generalFunctions.move(puzzle, i)
+                print('the g(n) to get to this node is: ' + str(moveNum) + ' the h(n) is: ' + str(generalFunctions.getCost(heuristic, puzzle, solved)))
                 for j in puzzle:
                     print(j)
                 moveNum += 1
-            break
+            print('the solution depth was: ' + str(moveNum))
+            break            
         else:
             newNodes = currNode.findChildren(solved)
             for i in newNodes:
